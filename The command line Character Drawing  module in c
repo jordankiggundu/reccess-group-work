@@ -1,0 +1,235 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <ncurses.h>
+#include <math.h>
+#include <time.h>
+#define WIDTH 30
+#define HEIGHT 100 
+
+void drawCharacterOnFrame(WINDOW *menu_win);
+void drawCharacter();
+
+char allcharacters[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+char taskList[] = "BCFGHIOT";
+int bitsOfCharacterBeingDrawn[7][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+char characterBeingDrawn = 'A';
+int indexOfCharacterBeingDrawn = 0;
+int startx = 0;
+int starty = 0;
+long int overalTimeTaken = 0;
+int allcharacterBits[26][7][4] = {
+                            {{0,1,1,0},{1,0,0,1},{1,0,0,1},{1,1,1,1},{1,0,0,1},{1,0,0,1},{1,0,0,1}},
+                            {{1,1,1,0},{1,0,0,1},{1,0,0,1},{1,1,1,0},{1,0,0,1},{1,0,0,1},{1,1,1,0}},
+                            {{0,0,1,1},{0,1,0,0},{1,0,0,0},{1,0,0,0},{1,0,0,0},{0,1,0,0},{0,0,1,1}},
+                            {{1,1,0,0},{1,0,1,0},{1,0,0,1},{1,0,0,1},{1,0,0,1},{1,0,1,0},{1,1,0,0}},
+                            {{1,1,1,1},{1,0,0,0},{1,0,0,0},{1,1,1,1},{1,0,0,0},{1,0,0,0},{1,1,1,1}},
+                            {{1,1,1,1},{1,0,0,0},{1,0,0,0},{1,1,1,1},{1,0,0,0},{1,0,0,0},{1,0,0,0}},
+                            {{0,0,1,1},{0,1,0,0},{1,0,0,0},{1,0,0,0},{1,0,1,1},{1,0,1,1},{0,1,0,1}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+                            {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}
+                           };
+int row=0, col=0;
+                    
+int main() {
+    int a;
+    long int singleCharacterTimeTaken;
+    long int characterAttemptTimes[] = {0,0,0,0,0,0,0,0};
+    
+    for(a=0; a < sizeof(taskList); a++){
+        time_t startTimeInSeconds; 
+        time(&startTimeInSeconds);
+        
+        characterBeingDrawn = taskList[a];
+        int i, ii,xx, expectedTaskScore, singleTaskScore, singleCharacterScore, activeCellNumber=0, 
+        assignmentListScores[] = {0,0,0,0,0,0,0,0};
+        int rw=2, cl=2;
+        
+        WINDOW *menu_win;
+	    int choice = 0;
+	    int c;
+
+	    initscr();
+	    clear();
+	    noecho();
+	    cbreak();	/* Line buffering disabled. pass on everything */
+	    startx = (getmaxx(stdscr) - WIDTH) / 2;
+	    starty = (getmaxy(stdscr) - HEIGHT) / 2;
+	    
+	    keypad(stdscr, TRUE);
+	    drawCharacter();
+	    //record time now
+	    
+	    
+        while(1){
+	        c = getch();
+		    switch(c) {
+		        case 48:  //0
+		            bitsOfCharacterBeingDrawn[row][col] = 0;
+		            activeCellNumber++;
+                    drawCharacter();
+		            break;
+		        case 49:  //1
+		            bitsOfCharacterBeingDrawn[row][col] = 1;
+		            activeCellNumber++;
+                    drawCharacter();
+		            break;
+		        case KEY_BACKSPACE: //backspace = 263
+                    row = floor(activeCellNumber/4);
+		            col = activeCellNumber%4;
+                    bitsOfCharacterBeingDrawn[row][col] = 0;
+                    if(activeCellNumber > 0){
+                        activeCellNumber--;
+                    }
+                    drawCharacter();
+                    break;
+		        case KEY_UP:
+				    if(activeCellNumber > 3){
+                        activeCellNumber -= 4;  // activeCellNumber = activeCellNumber-4
+                    }else{
+                        activeCellNumber = 0;
+                    }
+                    row = floor(activeCellNumber/4);
+		            col = activeCellNumber%4;
+                    drawCharacter();
+				    break;
+			    case KEY_DOWN:
+				    if(activeCellNumber < 24){
+                        activeCellNumber += 4;
+                    }else{
+                        activeCellNumber=27;
+                    }
+                    row = floor(activeCellNumber/4);
+		            col = activeCellNumber%4;
+                    drawCharacter();
+				    break;
+		        case KEY_LEFT:
+		            if(activeCellNumber > 0){
+                        activeCellNumber--;
+                    }
+                    row = floor(activeCellNumber/4);
+		            col = activeCellNumber%4;
+                    drawCharacter();
+                    break;
+                case KEY_RIGHT:
+		            if(activeCellNumber < 27){
+                        activeCellNumber++;
+                    }
+                    row = floor(activeCellNumber/4);
+		            col = activeCellNumber%4;
+                    drawCharacter();
+		            break;
+		        case KEY_ENTER:
+		            //record finishing time now
+		            time_t endTimeInSeconds; 
+                    time(&endTimeInSeconds);
+                    singleCharacterTimeTaken = endTimeInSeconds - startTimeInSeconds;
+                    overalTimeTaken += singleCharacterTimeTaken;
+                    characterAttemptTimes[a] = singleCharacterTimeTaken;
+		            
+		            //loop through allcharacters and get the index of the character being drawn
+			        for(ii=0; ii < sizeof(allcharacters); ii++){
+			            if(allcharacters[ii] == characterBeingDrawn){
+			                indexOfCharacterBeingDrawn = ii;
+			                break;
+			            }
+			        }
+			        //TODO: mark and attach score for this completed assignment
+			        //index allcharacterBits for the expected correct answer (bits) of the character
+			        
+			        
+			        //loop and count how many bits are correctly set in the bitsOfCharacterBeingDrawn variable by 
+			        //comparing each with the corresponding bit in allcharacterBits[indexOfCharacterBeingDrawn] 
+			        //ie, get (score/28)*100 %
+			        
+			        singleTaskScore = 0;
+			        expectedTaskScore = 0;
+			        for(xx=0; xx<sizeof(allcharacterBits[indexOfCharacterBeingDrawn]); xx++){
+			            for(yy=0; yy<sizeof(allcharacterBits[indexOfCharacterBeingDrawn][xx]); yy++){
+			                
+			                if(allcharacterBits[indexOfCharacterBeingDrawn][xx][yy]==1){
+			                    expectedTaskScore++;
+			                    if(allcharacterBits[indexOfCharacterBeingDrawn][xx][yy] == bitsOfCharacterBeingDrawn[xx][yy]){
+			                        singleTaskScore++;
+			                    }
+			                }
+			                singleCharacterScore = (singleTaskScore/expectedTaskScore)*100;
+			                //TODO: push to the array of scores
+			                for(yy=0; yy<8; yy++){
+			                    if(assignmentListScores[yy]==0){
+			                        assignmentListScores[yy] = singleCharacterScore;
+			                        break;
+			                    }
+			                }
+			                
+			            }
+			        }
+			        /*
+			        bitsOfCharacterBeingDrawn[row][col] = 0;
+			        allcharacters
+			        characterBeingDrawn
+			        indexOfCharacterBeingDrawn
+			        */
+			        //TODO: remeber the time-taken in seconds
+			        printw("\n Solution submitted. \n");
+			        break;
+			    default:
+				    mvprintw(30, 0, "Wrong button '%c' (%3d) pressed\non a new line", c, c);
+				    break;
+		    }
+	    }
+	}
+	
+	
+	//print overall time taken
+	printf("Time taken = %ld", overalTimeTaken);
+    //TODO: get overall total score
+    //print the attempted characters in form of stars
+    
+    //attach details for submission to the server
+    //wait for response, and give acknowedgement
+	    
+	return 0;
+}
+
+void drawCharacter(){
+    int rw=0, cl=0;
+    mvprintw(4, 1, "\n");
+    mvprintw(2, 0, "Draw character %c :\n", characterBeingDrawn);
+    
+    mvprintw(3, 0, "_________________");
+    for(rw=0; rw<7; rw++){
+        printw("\n|");
+        for(cl=0; cl<4; cl++){
+            if(rw==row && cl==col){
+               //active cell
+               printw("%s%s%s|", "[",(bitsOfCharacterBeingDrawn[rw][cl]==1)?"*":"_","]");
+            }else{
+               printw("%s%s%s|", "_",(bitsOfCharacterBeingDrawn[rw][cl]==1)?"*":"_","_");
+            }
+        }
+    }
+    mvprintw(30, 3, "%d", bitsOfCharacterBeingDrawn[rw][cl]);
+}
+
+
+
+
+
+
