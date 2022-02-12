@@ -9,10 +9,11 @@
   </head>
   <body>
     
-      <div class="headr">
-        <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL</h1>
-      </div>
+    <div class="headr">
+      <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL</h1>
+    </div>
 
+    <div>
       <div>
         <nav class="sidebar">
           <div class="">
@@ -47,10 +48,9 @@
                   STUDENT STATUS
                 </a>
                 </div>
-                
                 <div>
-                  <span onclick="logout()" >
-                    <a class="m-txt">
+                  <span>
+                    <a class="m-txt" href="/">
                       LOGOUT
                     </a>
                   </span>
@@ -58,36 +58,17 @@
             </ul>
           </div>
         </nav>
-    </div>
 
-    <div align="center">
-        <div style="min-height:80px; "> 
-            <span> Select the assignment : </span>
-            <select id="assignmentOptions">
-                <option value="1"> ... </option>
-            </select> 
-        </div>
-        <div id="commentform" style="position:absolute; width:90%; left:5%; top:50; min-height:100px; bakground:white;">
-            <textarea id="comment" col=120 rows=5></textarea>
-            <button onclick="submitComment()">submit</button>
-        </div>
-        <div id="display" style="float:right; margin:0 1% 0 0"></div>
-        <script>
-            document.querySelector("#commentform").style.display = "none";
-            window.onload = function(){
-                var assignmentlistid = document.querySelector("#assignmentOptions").value;
-                console.log("assignmentlistid = ", assignmentlistid);
-                addComment(assignmentlistid);
-            }
-            document.querySelector("#assignmentOptions").onchange = function(ev){
-                var assignmentlistid = document.querySelector("#assignmentOptions").value;
-                console.log("assignmentlistid = ", assignmentlistid);
-                addComment(assignmentlistid);
-            }
-        </script>
-    </div>
+<div>
+<div align="center">
+    <p> <h1> Welcome teacher! </h1> </p>
+    <h2 center> LET'S GET STARTED!! </h2>
+    <br>
+</div>
+</div>
 
+</div>
+</div>
 
 </body>
 </html>
-   
