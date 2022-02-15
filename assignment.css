@@ -1,0 +1,52 @@
+body {
+    font-size: large;
+}
+
+.headr {
+    width: 100%;
+    background-color: dodgerblue;
+    height: 100px;
+}
+
+.b-txt {
+    color: black;
+}
+
+.wh-txt {
+    color: whitesmoke;
+    text-align: center;
+    padding: 33px;
+}
+
+.sidebar {
+    height: 50%;
+    left: 10px;
+    width: 20%;
+    background-color: dodgerblue;
+    position: absolute;
+}
+
+a {
+    text-decoration: none;
+    color: whitesmoke;
+    white-space: pre-line;
+}
+
+.btn {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+}

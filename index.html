@@ -1,44 +1,29 @@
 <html>
-<head>
-<title>Welcome admin!</title>
-<link href="/assignment.css" rel="stylesheet">
-    <script src="/myscript.js" rel="text/javascript"></script>
+    <head>
+        <title>Welcome teacher!</title>
+        <link href="/assignment.css" rel="stylesheet">
+        <script src="/myscript.js" rel="text/javascript"></script>
+    </head>
 
-</head>
 
+    <body>
+        <div class="headr">
+          <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL</h1>
+        </div>
+        <div align="center">
 
-<body>
-<div class="headr">
-  <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL   </h1>
-  <span onclick="logout()" style="float:right; margin:0 50px 0 0" ><u>Logout</u></span>
-</div>
-<div align="center">
+        <h2 center> LOGIN HERE </h2>
+        <br>
 
-<a href='/admin/' id='pglink' class='b-txt' ><h1 center>ADMIN</h1></a>
-<h2 center> register teacher </h2>
-
-<br/>
-<label>Enter Firstname</label>
-<input type="text" id="firstname">
-<br/>
-<br/>
-<label>Enter Lastname</label>
-<input type="text" id="lastname" >
-<br/>
-<br/>
-<label>Enter Username</label>
-<input type="text" id="username" placeholder="username">
-<br/>
-<br/>
-<label>Enter Password</label>
-<input type="password" id="password" placeholder="password">
-<br/>
-<br/>
-<button class="btn" onclick="registerTeacher()" name="register" type="submit"><b> register </b></button>
-
-    
-</div>
-</div>
-
-</body>
+        <label>Enter Username</label>
+        <input type="text" id="username" placeholder="username">
+        <br>
+        <br>
+        <label>Enter Password</label>
+        <input type="password" id="password" placeholder="password">
+        <br>
+        <br>
+        <button class="btn" onclick="login()" name="login" type="submit"><b> Login </b></button>
+        </div>
+    </body>
 </html>
