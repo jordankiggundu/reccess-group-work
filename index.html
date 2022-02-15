@@ -1,93 +1,44 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>WELCOME TEACHER</title>
-    <link href="../assignment.css" rel="stylesheet">
-    <script src="../myscript.js" rel="text/javascript"></script>
+<html>
+<head>
+<title>Welcome admin!</title>
+<link href="/assignment.css" rel="stylesheet">
+    <script src="/myscript.js" rel="text/javascript"></script>
 
-  </head>
-  <body>
+</head>
+
+
+<body>
+<div class="headr">
+  <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL   </h1>
+  <span onclick="logout()" style="float:right; margin:0 50px 0 0" ><u>Logout</u></span>
+</div>
+<div align="center">
+
+<a href='/admin/' id='pglink' class='b-txt' ><h1 center>ADMIN</h1></a>
+<h2 center> register teacher </h2>
+
+<br/>
+<label>Enter Firstname</label>
+<input type="text" id="firstname">
+<br/>
+<br/>
+<label>Enter Lastname</label>
+<input type="text" id="lastname" >
+<br/>
+<br/>
+<label>Enter Username</label>
+<input type="text" id="username" placeholder="username">
+<br/>
+<br/>
+<label>Enter Password</label>
+<input type="password" id="password" placeholder="password">
+<br/>
+<br/>
+<button class="btn" onclick="registerTeacher()" name="register" type="submit"><b> register </b></button>
+
     
-      <div class="headr">
-        <h1 class="wh-txt">KINDERCARE CHARACTER DRAW ASSESMENT TOOL</h1>
-      </div>
-
-      <div>
-        <nav class="sidebar">
-          <div class="">
-            <ul >
-                <div>
-                <a class="m-txt" href="/teacher/">
-                  DASHBOARD
-                </a>
-                </div>
-                <div>
-                <a class="m-txt" href="/pupil/">
-                  REGISTER
-                </a>
-                </div>
-                <div>
-                <a class="m-txt" href="/assignmentdetails/">
-                  ASSIGNMENT
-                </a>
-                </div>
-                <div>
-                <a class="m-txt" href="/comment/">
-                  MAKE COMMENT
-                </a>
-                </div>
-                <div>
-                <a class="m-txt" href="/status/">
-                  ACTIVATION REQUESTS
-                </a>
-                </div>
-                <div>
-                <a class="m-txt" href="/list/pupils/">
-                  STUDENT STATUS
-                </a>
-                </div>
-                
-                <div>
-                  <span onclick="logout()" >
-                    <a class="m-txt">
-                      LOGOUT
-                    </a>
-                  </span>
-                </div>
-            </ul>
-          </div>
-        </nav>
-    </div>
-
-    <div align="center">
-        <div style="min-height:80px; "> 
-            <span> Select the assignment : </span>
-            <select id="assignmentOptions">
-                <option value="1"> ... </option>
-            </select> 
-        </div>
-        <div id="commentform" style="position:absolute; width:90%; left:5%; top:50; min-height:100px; bakground:white;">
-            <textarea id="comment" col=120 rows=5></textarea>
-            <button onclick="submitComment()">submit</button>
-        </div>
-        <div id="display" style="float:right; margin:0 1% 0 0"></div>
-        <script>
-            document.querySelector("#commentform").style.display = "none";
-            window.onload = function(){
-                var assignmentlistid = document.querySelector("#assignmentOptions").value;
-                console.log("assignmentlistid = ", assignmentlistid);
-                addComment(assignmentlistid);
-            }
-            document.querySelector("#assignmentOptions").onchange = function(ev){
-                var assignmentlistid = document.querySelector("#assignmentOptions").value;
-                console.log("assignmentlistid = ", assignmentlistid);
-                addComment(assignmentlistid);
-            }
-        </script>
-    </div>
-
+</div>
+</div>
 
 </body>
 </html>
-   
